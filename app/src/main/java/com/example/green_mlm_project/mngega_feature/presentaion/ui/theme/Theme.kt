@@ -36,7 +36,7 @@ fun Green_mlm_projectTheme(
     val systemUiController = rememberSystemUiController()
     systemUiController.setStatusBarColor(
         color = PrimaryDark
-    );
+    )
     val colors = if (darkTheme) {
         DarkColorPalette
     } else {

@@ -11,11 +11,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Green_mlm_project">
         <activity
-            android:windowSoftInputMode="adjustResize"
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Green_mlm_project.NoActionBar">
+            android:theme="@style/Theme.Green_mlm_project.NoActionBar"
+            android:windowSoftInputMode="adjustPan|adjustResize"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

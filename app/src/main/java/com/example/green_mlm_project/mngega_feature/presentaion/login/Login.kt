@@ -35,40 +35,24 @@ fun Login(
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
     var passwordHasError by remember { mutableStateOf(false) }
-    var passwordLabel by remember { mutableStateOf("Enter your password") }
+    var passwordLabel by remember { mutableStateOf("Password") }
 
     var email by remember { mutableStateOf("") }
     var emailHasError by remember { mutableStateOf(false) }
-    var emailLabel by remember { mutableStateOf("Enter your email address") }
+    var emailLabel by remember { mutableStateOf("Username") }
     val materialBlue700 = Purple700
 
     if(email.isBlank()){
         emailHasError=false
-        emailLabel="Enter your email address"
+        emailLabel="Username"
     }
     if(password.isNotBlank()){
         passwordHasError=false
-        passwordLabel="Enter your password"
+        passwordLabel="Password"
     }
-//    val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
     Scaffold(
 //        scaffoldState = scaffoldState,
-        topBar = {
-            TopAppBar(title = { Text("Login") }, actions = {
-                Row {
-                    Text(text = "Register")
-                    Icon(
-                        imageVector = Icons.Default.Add,
-                        contentDescription = "Register"
-                    )
-                }
-            }, backgroundColor = materialBlue700)
-        },
-//        floatingActionButtonPosition = FabPosition.End,
-//        floatingActionButton = { FloatingActionButton(onClick = {}){
-//            Text("X")
-//        } },
-//        drawerContent = { Text(text = "drawerContent") },
+
         content = {
 
             Column(
@@ -105,21 +89,27 @@ fun Login(
                         }
                     }
                 )
-                Button(onClick = {
-                    when {
-                        password.isEmpty() -> {
-                            passwordHasError = true
-                            passwordLabel = "password can't be empty"
-                        }
-                        !Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
-                            emailHasError = true
-                            emailLabel = "Invalid email address"
-                        }
-                        else -> toast(message = "All fields are valid!", context)
-                    }
-                }) {
-                    Text("login")
-                }
+               Row {
+                   Button(onClick = {
+//                    when {
+//                        password.isEmpty() -> {
+//                            passwordHasError = true
+//                            passwordLabel = "password can't be empty"
+//                        }
+//                        !Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
+//                            emailHasError = true
+//                            emailLabel = "Invalid email address"
+//                        }
+//                        else -> toast(message = "All fields are valid!", context)
+//                    }
+                   }) {
+                       Text("login")
+                   }
+                   Spacer(modifier = Modifier.width(20.dp))
+                   Button(onClick = { /*TODO*/ }) {
+                       Text(text = "Register")
+                   }
+               }
             }
         },
 //        bottomBar = { BottomAppBar(backgroundColor = materialBlue700) { Text("BottomAppBar") } }

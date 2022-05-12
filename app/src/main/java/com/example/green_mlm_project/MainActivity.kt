@@ -1,6 +1,7 @@
 package com.example.green_mlm_project
 
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.MaterialTheme
@@ -8,6 +9,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.green_mlm_project.mngega_feature.presentaion.Registration.Register
 import com.example.green_mlm_project.mngega_feature.presentaion.dashboard.Dashboard
 import com.example.green_mlm_project.mngega_feature.presentaion.login.Login
 import com.example.green_mlm_project.mngega_feature.presentaion.ui.theme.Green_mlm_projectTheme
@@ -20,9 +22,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             Green_mlm_projectTheme {
                 // A surface container using the 'background' color from the theme
+
                 Surface(color = MaterialTheme.colors.background) {
 //                    Login()
-                    Dashboard();
+//                    Register()
+//                    Dashboard();
                 }
             }
         }
