@@ -38,6 +38,7 @@ fun Dashboard() {
     val materialBlue700 = Color(0xFF1976D2)
     val scope = rememberCoroutineScope()
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
+
     Scaffold(
         scaffoldState = scaffoldState,
 
@@ -47,9 +48,9 @@ fun Dashboard() {
                 backgroundColor = PrimaryColor,
                 navigationIcon = {
                     IconButton(onClick = {
-                        scope.launch {
-                            scaffoldState.drawerState.open()
-                        }
+//                        scope.launch {
+//                            scaffoldState.drawerState.open()
+//                        }
                     }) {
                         Icon(imageVector = Icons.Default.Menu, contentDescription = "Menu")
                     }
@@ -57,52 +58,61 @@ fun Dashboard() {
             )
         },
 
-        drawerContent = {
-            DrawerContent()
-        },
+//        drawerContent = {
+//            DrawerContent()
+//        },
         content = {
-            Column(modifier = Modifier
-                .padding(PaddingValues(top = 10.dp))
-                .fillMaxSize(1f),horizontalAlignment = Alignment.CenterHorizontally) {
+            Box {
+                Image(
+                    modifier = Modifier.fillMaxSize(),
+                    painter = painterResource(R.drawable.img2),
+                    contentDescription = "background_image",
+                    contentScale = ContentScale.FillBounds
+                )
+                Column(modifier = Modifier
+                    .padding(PaddingValues(top = 10.dp))
+                    .fillMaxSize(1f),horizontalAlignment = Alignment.CenterHorizontally) {
 
-                Row(Modifier.fillMaxWidth(1f),horizontalArrangement = Arrangement.SpaceAround) {
+                    Row(Modifier.fillMaxWidth(1f),horizontalArrangement = Arrangement.SpaceAround) {
 
-                    BoxButton(iconName = Icons.Default.Person)
-                    BoxButton(iconName = Icons.Default.Groups,title="0",subTitle = "DIRECT REFERAL",boxColor = SkyBlue)
+                        BoxButton(iconName = Icons.Default.Person)
+                        BoxButton(iconName = Icons.Default.Groups,title="0",subTitle = "DIRECT REFERAL",boxColor = SkyBlue)
+                    }
+
+                    Spacer(Modifier.height(10.dp))
+
+
+                    Row(Modifier.fillMaxWidth(1f),horizontalArrangement = Arrangement.SpaceAround) {
+
+                        BoxButton(iconName = Icons.Default.Groups,title="3",subTitle = "AUTO UPGRADE",boxColor = DarkYellow)
+                        BoxButton(iconName = Icons.Default.Groups,title="3",subTitle = "MY TEAM",iconBoxColor = DarkGreen)
+                    }
+
+                    Spacer(Modifier.height(10.dp))
+                    Row(Modifier.fillMaxWidth(1f),horizontalArrangement = Arrangement.SpaceAround) {
+
+                        BoxButton(iconName = Icons.Default.Groups,title="0",subTitle = "INACTIVE",boxColor = LightRed,iconBoxColor = DarkGreen)
+                        BoxButton(iconName = Icons.Default.Money,title="46535/-",subTitle = "E-WALLET",iconBoxColor = NaviBlue)
+                    }
+
+                    Spacer(Modifier.height(10.dp))
+
+                    Row(Modifier.fillMaxWidth(1f),horizontalArrangement = Arrangement.SpaceAround) {
+                        BoxButton(iconName = Icons.Default.PushPin,title="79",subTitle = "AVAILABLE e-PIN",boxColor = DarkYellow,iconBoxColor = NaviBlue)
+                        BoxButton(iconName = Icons.Default.PushPin,title="9",subTitle = "EXPIRED e-PIN",boxColor = LightRed,iconBoxColor = DarkGreen)
+                    }
+                    Spacer(Modifier.height(10.dp))
+
+                    Row(Modifier.fillMaxWidth(1f),horizontalArrangement = Arrangement.Center) {
+                        BoxButton(iconName = Icons.Default.Money,title="100",subTitle = "TOTAL INCOME",boxColor = DarkYellow,iconBoxColor = LightRed)
+                    }
+
+
+
+
                 }
-
-                Spacer(Modifier.height(10.dp))
-
-
-                Row(Modifier.fillMaxWidth(1f),horizontalArrangement = Arrangement.SpaceAround) {
-
-                    BoxButton(iconName = Icons.Default.Groups,title="3",subTitle = "AUTO UPGRADE",boxColor = DarkYellow)
-                    BoxButton(iconName = Icons.Default.Groups,title="3",subTitle = "MY TEAM",iconBoxColor = DarkGreen)
-                }
-
-                Spacer(Modifier.height(10.dp))
-                Row(Modifier.fillMaxWidth(1f),horizontalArrangement = Arrangement.SpaceAround) {
-
-                    BoxButton(iconName = Icons.Default.Groups,title="0",subTitle = "INACTIVE",boxColor = LightRed,iconBoxColor = DarkGreen)
-                    BoxButton(iconName = Icons.Default.Money,title="46535/-",subTitle = "E-WALLET",iconBoxColor = NaviBlue)
-                }
-
-                Spacer(Modifier.height(10.dp))
-
-                Row(Modifier.fillMaxWidth(1f),horizontalArrangement = Arrangement.SpaceAround) {
-                    BoxButton(iconName = Icons.Default.PushPin,title="79",subTitle = "AVAILABLE e-PIN",boxColor = DarkYellow,iconBoxColor = NaviBlue)
-                    BoxButton(iconName = Icons.Default.PushPin,title="9",subTitle = "EXPIRED e-PIN",boxColor = LightRed,iconBoxColor = DarkGreen)
-                }
-                Spacer(Modifier.height(10.dp))
-
-                Row(Modifier.fillMaxWidth(1f),horizontalArrangement = Arrangement.Center) {
-                    BoxButton(iconName = Icons.Default.Money,title="100",subTitle = "TOTAL INCOME",boxColor = DarkYellow,iconBoxColor = LightRed)
-                }
-
-
-
-
-            } },
+            }
+                  },
     )
 }
 
@@ -146,12 +156,18 @@ fun BoxButton(
     boxColor:Color= PrimaryColor,
     iconBoxColor:Color= Color.Red,
 ) {
-   Row(Modifier.width(180.dp).height(50.dp),horizontalArrangement = Arrangement.SpaceBetween) {
+   Row(
+       Modifier
+           .width(180.dp)
+           .height(50.dp),horizontalArrangement = Arrangement.SpaceBetween) {
        Box(
            modifier = Modifier
                .width(135.dp)
                .height(50.dp)
-               .background(shape = RoundedCornerShape(topStart = 4.dp,bottomStart = 4.dp), color = boxColor)
+               .background(
+                   shape = RoundedCornerShape(topStart = 4.dp, bottomStart = 4.dp),
+                   color = boxColor
+               )
                .clickable {
                    Log.i(
                        "TAG",
@@ -172,7 +188,10 @@ fun BoxButton(
            modifier = Modifier
                .fillMaxHeight(1f)
                .width(45.dp)
-               .background(shape = RoundedCornerShape(topEnd = 4.dp,bottomEnd = 4.dp), color = iconBoxColor),
+               .background(
+                   shape = RoundedCornerShape(topEnd = 4.dp, bottomEnd = 4.dp),
+                   color = iconBoxColor
+               ),
            Alignment.Center
 
        ) {

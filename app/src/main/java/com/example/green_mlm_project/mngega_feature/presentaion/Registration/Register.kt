@@ -21,11 +21,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.green_mlm_project.R
 import com.example.green_mlm_project.mngega_feature.presentaion.ui.theme.PrimaryColor
 
 @Composable
-fun Register() {
+fun Register(
+    navController: NavController
+
+) {
     var referal by remember { mutableStateOf("") }
     var spouse by remember { mutableStateOf("") }
     var firstName by remember { mutableStateOf("") }
@@ -43,88 +47,96 @@ fun Register() {
         content = {
 
 
-            Column(
-                Modifier
-                    .fillMaxSize(1f)
-                    .scrollable(state = scrollState,orientation = Orientation.Vertical,reverseDirection = true),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-
-                Card(
-                    modifier = Modifier
-                        .size(48.dp)
-                        .testTag("circle"),
-                    shape = CircleShape,
-                    elevation = 2.dp
+            Box {
+                Image(
+                    modifier = Modifier.fillMaxSize(),
+                    painter = painterResource(R.drawable.img2),
+                    contentDescription = "background_image",
+                    contentScale = ContentScale.FillBounds
+                )
+                Column(
+                    Modifier
+                        .fillMaxSize(1f)
+                        .scrollable(state = scrollState,orientation = Orientation.Vertical,reverseDirection = true),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Image(
-                        painterResource(R.drawable.img),
-                        contentDescription = "",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.size(64.dp)
-                    )
-                }
 
-                Text(text = "Welcome to Green World", color = PrimaryColor)
-
-                OutlinedTextField(
-                    value = referal,
-                    label = { Text(text = "Enter Referral Id") },
-                    modifier = Modifier.padding(10.dp),
-                    onValueChange = { value -> referal = value },
-                )
-                OutlinedTextField(
-                    value = spouse,
-                    label = { Text(text = "Sponser Name") },
-                    modifier = Modifier.padding(10.dp),
-                    onValueChange = { value -> spouse = value },
-                )
-                OutlinedTextField(
-                    value = firstName,
-                    label = { Text(text = "Enter first Name") },
-                    modifier = Modifier.padding(10.dp),
-                    onValueChange = { value -> firstName = value },
-                )
-                OutlinedTextField(
-                    value = lastName,
-                    label = { Text(text = "Enter last Name") },
-                    modifier = Modifier.padding(10.dp),
-                    onValueChange = { value -> lastName = value },
-                )
-                OutlinedTextField(
-                    value = contect,
-                    label = { Text(text = "Enter contact NO.") },
-                    modifier = Modifier.padding(10.dp),
-                    onValueChange = { value -> contect = value },
-                )
-                OutlinedTextField(
-                    value = email,
-                    label = { Text(text = "Enter Email Address") },
-                    modifier = Modifier.padding(10.dp),
-                    onValueChange = { value -> email = value },
-                )
-                OutlinedTextField(
-                    value = password,
-                    visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                    label = { Text(text = "Password") },
-                    modifier = Modifier.padding(10.dp),
-                    onValueChange = { value -> password = value },
-                    trailingIcon = {
-                        val image = if (passwordVisible)
-                            Icons.Filled.Visibility
-                        else Icons.Filled.VisibilityOff
-
-                        IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                            Icon(imageVector = image, contentDescription = null)
-                        }
+                    Card(
+                        modifier = Modifier
+                            .size(48.dp)
+                            .testTag("circle"),
+                        shape = CircleShape,
+                        elevation = 2.dp
+                    ) {
+                        Image(
+                            painterResource(R.drawable.img),
+                            contentDescription = "",
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier.size(64.dp)
+                        )
                     }
-                )
+
+                    Text(text = "Welcome to Green World", color = PrimaryColor)
+
+                    OutlinedTextField(
+                        value = referal,
+                        label = { Text(text = "Enter Referral Id") },
+                        modifier = Modifier.padding(10.dp),
+                        onValueChange = { value -> referal = value },
+                    )
+                    OutlinedTextField(
+                        value = spouse,
+                        label = { Text(text = "Sponser Name") },
+                        modifier = Modifier.padding(10.dp),
+                        onValueChange = { value -> spouse = value },
+                    )
+                    OutlinedTextField(
+                        value = firstName,
+                        label = { Text(text = "Enter first Name") },
+                        modifier = Modifier.padding(10.dp),
+                        onValueChange = { value -> firstName = value },
+                    )
+                    OutlinedTextField(
+                        value = lastName,
+                        label = { Text(text = "Enter last Name") },
+                        modifier = Modifier.padding(10.dp),
+                        onValueChange = { value -> lastName = value },
+                    )
+                    OutlinedTextField(
+                        value = contect,
+                        label = { Text(text = "Enter contact NO.") },
+                        modifier = Modifier.padding(10.dp),
+                        onValueChange = { value -> contect = value },
+                    )
+                    OutlinedTextField(
+                        value = email,
+                        label = { Text(text = "Enter Email Address") },
+                        modifier = Modifier.padding(10.dp),
+                        onValueChange = { value -> email = value },
+                    )
+                    OutlinedTextField(
+                        value = password,
+                        visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                        label = { Text(text = "Password") },
+                        modifier = Modifier.padding(10.dp),
+                        onValueChange = { value -> password = value },
+                        trailingIcon = {
+                            val image = if (passwordVisible)
+                                Icons.Filled.Visibility
+                            else Icons.Filled.VisibilityOff
+
+                            IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                                Icon(imageVector = image, contentDescription = null)
+                            }
+                        }
+                    )
 
 
 
-                Button(onClick = { /*TODO*/ }) {
-                    Text(text = "Sign up")
+                    Button(onClick = { /*TODO*/ }) {
+                        Text(text = "Sign up")
+                    }
                 }
             }
         },

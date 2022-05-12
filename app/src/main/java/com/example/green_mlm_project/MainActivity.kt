@@ -9,6 +9,11 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.green_mlm_project.mngega_feature.presentaion.Registration.Register
 import com.example.green_mlm_project.mngega_feature.presentaion.dashboard.Dashboard
 import com.example.green_mlm_project.mngega_feature.presentaion.login.Login
@@ -24,9 +29,24 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
 
                 Surface(color = MaterialTheme.colors.background) {
+                    val navController = rememberNavController()
+                    NavHost(
+                        navController = navController,
+                        startDestination = "login"
+                    ) {
+                        composable("login") {
+                            Login(navController = navController)
+                        }
+                        composable("register") {
+                            Register(navController = navController)
+                        }
+                        composable("dashboard") {
+                            Dashboard()
+                        }
+                    }
 //                    Login()
 //                    Register()
-//                    Dashboard();
+//                    Dashboard()
                 }
             }
         }
