@@ -16,7 +16,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
@@ -64,7 +67,17 @@ fun Dashboard() {
         content = {
             Box {
                 Image(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize().drawWithCache {
+                        val gradient = Brush.verticalGradient(
+                            colors = listOf(amzonblue, amzongreen),
+                            startY = size.height/3,
+                            endY = size.height
+                        )
+                        onDrawWithContent {
+                            drawContent()
+                            drawRect(gradient,blendMode = BlendMode.Multiply)
+                        }
+                    },
                     painter = painterResource(R.drawable.img2),
                     contentDescription = "background_image",
                     contentScale = ContentScale.FillBounds

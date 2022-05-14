@@ -2,30 +2,35 @@ package com.example.green_mlm_project.mngega_feature.presentaion.login
 
 
 import android.content.Context
-import android.util.Patterns
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawWithCache
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.green_mlm_project.R
 import com.example.green_mlm_project.mngega_feature.presentaion.ui.theme.Purple700
+import com.example.green_mlm_project.mngega_feature.presentaion.ui.theme.amzonblue
+import com.example.green_mlm_project.mngega_feature.presentaion.ui.theme.amzongreen
+import com.example.green_mlm_project.mngega_feature.presentaion.utli.Screen
 
 
 fun toast(message: String, context: Context) {
@@ -34,34 +39,59 @@ fun toast(message: String, context: Context) {
 
 @Composable
 fun Login(
-    navController: NavController
+    navController: NavController,
+    viewModel: LoginViewModel = hiltViewModel()
+
 ) {
+
+    val state = viewModel.state.value
+
 
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
     var passwordHasError by remember { mutableStateOf(false) }
     var passwordLabel by remember { mutableStateOf("Password") }
 
-    var email by remember { mutableStateOf("") }
+    var username by remember { mutableStateOf("") }
     var emailHasError by remember { mutableStateOf(false) }
     var emailLabel by remember { mutableStateOf("Username") }
     val materialBlue700 = Purple700
 
-    if(email.isBlank()){
-        emailHasError=false
-        emailLabel="Username"
+    if (username.isBlank()) {
+        emailHasError = false
+        emailLabel = "Username"
     }
-    if(password.isNotBlank()){
-        passwordHasError=false
-        passwordLabel="Password"
+    if (password.isNotBlank()) {
+        passwordHasError = false
+        passwordLabel = "Password"
     }
+    
+    if (state.response?.error_code == 0) {
+        navController.navigate(Screen.Dashboard.route)
+    }
+
+
+    
+    
     Scaffold(
 
         content = {
 
             Box {
                 Image(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .drawWithCache {
+                            val gradient = Brush.verticalGradient(
+                                colors = listOf(amzonblue, amzongreen),
+                                startY = size.height / 3,
+                                endY = size.height
+                            )
+                            onDrawWithContent {
+                                drawContent()
+                                drawRect(gradient, blendMode = BlendMode.Multiply)
+                            }
+                        },
                     painter = painterResource(R.drawable.img2),
                     contentDescription = "background_image",
                     contentScale = ContentScale.FillBounds
@@ -71,13 +101,17 @@ fun Login(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+                    
+                    if (false){
+                        Text(text = "Invalid username or password", color = Color.Red)
+                    }
 
                     OutlinedTextField(
-                        value = email,
+                        value = username,
                         isError = emailHasError,
                         label = { Text(text = emailLabel) },
                         modifier = Modifier.padding(10.dp),
-                        onValueChange = { value -> email = value },
+                        onValueChange = { value -> username = value },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                     )
                     OutlinedTextField(
@@ -93,7 +127,8 @@ fun Login(
                             else Icons.Filled.VisibilityOff
 
                             // Please provide localized description for accessibility services
-                            val description = if (passwordVisible) "Hide password" else "Show password"
+                            val description =
+                                if (passwordVisible) "Hide password" else "Show password"
 
                             IconButton(onClick = { passwordVisible = !passwordVisible }) {
                                 Icon(imageVector = image, description)
@@ -114,12 +149,14 @@ fun Login(
 //                        else -> toast(message = "All fields are valid!", context)
 //                    }
 
-                            navController.navigate("dashboard")
+//                            navController.navigate("dashboard")
+                            viewModel.loginCall(username=username,password = password)
+
                         }) {
                             Text("login")
                         }
                         Spacer(modifier = Modifier.width(20.dp))
-                        Button(onClick = { navController.navigate("register")}) {
+                        Button(onClick = { navController.navigate("register") }) {
                             Text(text = "Register")
                         }
                     }

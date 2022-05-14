@@ -18,3 +18,6 @@ val DarkGreen= Color(0xFF194A13)
 val NaviBlue= Color(0xFF054968)
 val BoxText= Color(0xFFFFFFFF)
 
+val amzonblue=Color(0x8F60DCE4)
+val amzongreen=Color(0x9595E9CD)
+

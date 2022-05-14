@@ -1,13 +1,12 @@
 package com.example.green_mlm_project.mngega_feature.presentaion.Registration
-
-import android.view.WindowManager
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
@@ -15,6 +14,9 @@ import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawWithCache
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
@@ -24,6 +26,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.green_mlm_project.R
 import com.example.green_mlm_project.mngega_feature.presentaion.ui.theme.PrimaryColor
+import com.example.green_mlm_project.mngega_feature.presentaion.ui.theme.amzonblue
+import com.example.green_mlm_project.mngega_feature.presentaion.ui.theme.amzongreen
+
 
 @Composable
 fun Register(
@@ -42,40 +47,56 @@ fun Register(
 
 
 
+
+
+
+
+
     Scaffold(
 
         content = {
 
-
             Box {
                 Image(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize().drawWithCache {
+                        val gradient = Brush.verticalGradient(
+                            colors = listOf(amzonblue, amzongreen),
+                            startY = size.height/3,
+                            endY = size.height
+                        )
+                        onDrawWithContent {
+                            drawContent()
+                            drawRect(gradient,blendMode = BlendMode.Multiply)
+                        }
+                    },
                     painter = painterResource(R.drawable.img2),
                     contentDescription = "background_image",
                     contentScale = ContentScale.FillBounds
                 )
+
                 Column(
                     Modifier
-                        .fillMaxSize(1f)
-                        .scrollable(state = scrollState,orientation = Orientation.Vertical,reverseDirection = true),
+                        .fillMaxSize(1f).verticalScroll(rememberScrollState())
+                        ,
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
 
-                    Card(
-                        modifier = Modifier
-                            .size(48.dp)
-                            .testTag("circle"),
-                        shape = CircleShape,
-                        elevation = 2.dp
-                    ) {
-                        Image(
-                            painterResource(R.drawable.img),
-                            contentDescription = "",
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier.size(64.dp)
-                        )
-                    }
+
+//                    Card(
+//                        modifier = Modifier
+//                            .size(48.dp)
+//                            .testTag("circle"),
+//                        shape = CircleShape,
+//                        elevation = 2.dp
+//                    ) {
+//                        Image(
+//                            painterResource(R.drawable.img),
+//                            contentDescription = "",
+//                            contentScale = ContentScale.Crop,
+//                            modifier = Modifier.size(64.dp)
+//                        )
+//                    }
 
                     Text(text = "Welcome to Green World", color = PrimaryColor)
 
@@ -137,6 +158,8 @@ fun Register(
                     Button(onClick = { /*TODO*/ }) {
                         Text(text = "Sign up")
                     }
+
+//                    Box(modifier = Modifier.fillMaxWidth(1f).height(30.dp))
                 }
             }
         },

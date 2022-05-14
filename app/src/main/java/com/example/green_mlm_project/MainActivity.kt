@@ -17,6 +17,7 @@ import androidx.navigation.navArgument
 import com.example.green_mlm_project.mngega_feature.presentaion.Registration.Register
 import com.example.green_mlm_project.mngega_feature.presentaion.dashboard.Dashboard
 import com.example.green_mlm_project.mngega_feature.presentaion.login.Login
+import com.example.green_mlm_project.mngega_feature.presentaion.navigation
 import com.example.green_mlm_project.mngega_feature.presentaion.ui.theme.Green_mlm_projectTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,24 +30,25 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
 
                 Surface(color = MaterialTheme.colors.background) {
-                    val navController = rememberNavController()
-                    NavHost(
-                        navController = navController,
-                        startDestination = "login"
-                    ) {
-                        composable("login") {
-                            Login(navController = navController)
-                        }
-                        composable("register") {
-                            Register(navController = navController)
-                        }
-                        composable("dashboard") {
-                            Dashboard()
-                        }
-                    }
+//                    val navController = rememberNavController()
+//                    NavHost(
+//                        navController = navController,
+//                        startDestination = "login"
+//                    ) {
+//                        composable("login") {
+//                            Login(navController = navController)
+//                        }
+//                        composable("register") {
+//                            Register(navController = navController)
+//                        }
+//                        composable("dashboard") {
+//                            Dashboard()
+//                        }
+//                    }
 //                    Login()
 //                    Register()
 //                    Dashboard()
+                    navigation()
                 }
             }
         }
