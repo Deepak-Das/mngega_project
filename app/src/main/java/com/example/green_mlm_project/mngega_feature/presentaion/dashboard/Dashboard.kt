@@ -3,6 +3,7 @@ package com.example.green_mlm_project.mngega_feature.presentaion.dashboard
 import android.content.Context
 import android.graphics.drawable.Icon
 import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -29,8 +30,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.green_mlm_project.Greeting
 import com.example.green_mlm_project.R
+import com.example.green_mlm_project.mngega_feature.presentaion.navigation
 import com.example.green_mlm_project.mngega_feature.presentaion.ui.theme.*
 import kotlinx.coroutines.launch
 
@@ -66,18 +69,21 @@ fun Dashboard() {
 //        },
         content = {
             Box {
+
                 Image(
-                    modifier = Modifier.fillMaxSize().drawWithCache {
-                        val gradient = Brush.verticalGradient(
-                            colors = listOf(amzonblue, amzongreen),
-                            startY = size.height/3,
-                            endY = size.height
-                        )
-                        onDrawWithContent {
-                            drawContent()
-                            drawRect(gradient,blendMode = BlendMode.Multiply)
-                        }
-                    },
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .drawWithCache {
+                            val gradient = Brush.verticalGradient(
+                                colors = listOf(amzonblue, amzongreen),
+                                startY = size.height / 3,
+                                endY = size.height
+                            )
+                            onDrawWithContent {
+                                drawContent()
+                                drawRect(gradient, blendMode = BlendMode.Multiply)
+                            }
+                        },
                     painter = painterResource(R.drawable.img2),
                     contentDescription = "background_image",
                     contentScale = ContentScale.FillBounds

@@ -18,12 +18,12 @@ class LoginViewModel @Inject constructor(
     private val apiService: ApiService
 ):ViewModel()  {
 
-    private val _state = mutableStateOf(LoginState(null))
+    private val _state = mutableStateOf(LoginState())
     val state: State<LoginState> = _state
 
-    fun loginCall(username:String,password:String)= viewModelScope.launch {
+    fun loginCall()= viewModelScope.launch {
 
-        apiService.login(username=username,password=password).also {
+        apiService.login(username=state.value.username,password=state.value.password).also {
             _state.value=state.value.copy(
                 response = it
             )
@@ -33,9 +33,19 @@ class LoginViewModel @Inject constructor(
     }
 
     fun setUsername(text:String){
+        _state.value=state.value.copy(
+            username = text
+        )
 
     }
     fun setPassword(text:String){
-
+        _state.value=state.value.copy(
+            password = text
+        )
+    }
+    fun setWarning(flag:Boolean){
+        _state.value=state.value.copy(
+            warning = flag
+        )
     }
 }

@@ -14,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -47,32 +48,40 @@ fun Login(
     val state = viewModel.state.value
 
 
-    var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
-    var passwordHasError by remember { mutableStateOf(false) }
+    var error by remember { mutableStateOf(false) }
     var passwordLabel by remember { mutableStateOf("Password") }
 
-    var username by remember { mutableStateOf("") }
-    var emailHasError by remember { mutableStateOf(false) }
-    var emailLabel by remember { mutableStateOf("Username") }
-    val materialBlue700 = Purple700
+    var usernameLabel by remember { mutableStateOf("Username") }
+    var errorText by remember { mutableStateOf("Please provide all data") }
 
-    if (username.isBlank()) {
-        emailHasError = false
-        emailLabel = "Username"
-    }
-    if (password.isNotBlank()) {
-        passwordHasError = false
-        passwordLabel = "Password"
-    }
-    
+
+
+
+//    if (state.username.isEmpty()) {
+//        viewModel.setWarning(false)
+//        usernameLabel = "Username"
+//    }
+//    if (state.password.isEmpty()) {
+//        viewModel.setWarning(false)
+//        passwordHasError = false
+//        passwordLabel = "Password"
+//    }
+
     if (state.response?.error_code == 0) {
         navController.navigate(Screen.Dashboard.route)
+    } else if (state.response?.error_code ==2) {
+        errorText="Invalid username or password"
+        viewModel.setWarning(true)
+    }else if (state.response?.error_code ==3) {
+        errorText="Please provide all data"
+        viewModel.setWarning(true)
+    }else if(state.response==null){
     }
 
 
-    
-    
+
+
     Scaffold(
 
         content = {
@@ -101,26 +110,33 @@ fun Login(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    
-                    if (false){
-                        Text(text = "Invalid username or password", color = Color.Red)
+
+                    if (state.warning) {
+                        Text(text = errorText, color = Color.Red)
                     }
 
+
                     OutlinedTextField(
-                        value = username,
-                        isError = emailHasError,
-                        label = { Text(text = emailLabel) },
-                        modifier = Modifier.padding(10.dp),
-                        onValueChange = { value -> username = value },
+                        modifier = Modifier
+                            .padding(10.dp)
+//                            .onFocusChanged {
+//                                if (it.isFocused){
+//                                    viewModel.setWarning(false)
+//                                }
+//                            }
+                        ,
+                        value = state.username,
+                        label = { Text(text = usernameLabel) },
+                        onValueChange = { value -> viewModel.setUsername(value) },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                     )
                     OutlinedTextField(
-                        value = password,
-                        isError = passwordHasError,
+                        value = state.password,
+//                        isError = passwordHasError,
                         visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                         label = { Text(text = passwordLabel) },
                         modifier = Modifier.padding(10.dp),
-                        onValueChange = { value -> password = value },
+                        onValueChange = { value -> viewModel.setPassword(value) },
                         trailingIcon = {
                             val image = if (passwordVisible)
                                 Icons.Filled.Visibility
@@ -150,7 +166,7 @@ fun Login(
 //                    }
 
 //                            navController.navigate("dashboard")
-                            viewModel.loginCall(username=username,password = password)
+                            viewModel.loginCall()
 
                         }) {
                             Text("login")
