@@ -1,11 +1,8 @@
 package com.example.green_mlm_project.mngega_feature.presentaion.Registration
+
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -15,14 +12,16 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.green_mlm_project.R
 import com.example.green_mlm_project.mngega_feature.presentaion.ui.theme.PrimaryColor
@@ -32,25 +31,25 @@ import com.example.green_mlm_project.mngega_feature.presentaion.ui.theme.amzongr
 
 @Composable
 fun Register(
-    navController: NavController
+    navController: NavController,
+    viewModel: RegisterViewModel = hiltViewModel()
 
 ) {
-    var referal by remember { mutableStateOf("") }
-    var spouse by remember { mutableStateOf("") }
-    var firstName by remember { mutableStateOf("") }
-    var lastName by remember { mutableStateOf("") }
-    var contect by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+
     var passwordVisible by remember { mutableStateOf(false) }
-    val scrollState = rememberScrollState()
 
+//    val focusRequester = FocusRequester()
 
+    var (response, sponsorText, referal, spouse, firstName, lastName, contact, email, password, waring
+    ) = viewModel.state.value
 
-
-
-
-
+    if (response == null) {
+        viewModel.setWaring(false)
+    } else if (response.error_code == 22) {
+        viewModel.setWaring(true)
+    } else if (response.error_code == 11) {
+        viewModel.setWaring(false)
+    }
 
     Scaffold(
 
@@ -58,17 +57,19 @@ fun Register(
 
             Box {
                 Image(
-                    modifier = Modifier.fillMaxSize().drawWithCache {
-                        val gradient = Brush.verticalGradient(
-                            colors = listOf(amzonblue, amzongreen),
-                            startY = size.height/3,
-                            endY = size.height
-                        )
-                        onDrawWithContent {
-                            drawContent()
-                            drawRect(gradient,blendMode = BlendMode.Multiply)
-                        }
-                    },
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .drawWithCache {
+                            val gradient = Brush.verticalGradient(
+                                colors = listOf(amzonblue, amzongreen),
+                                startY = size.height / 3,
+                                endY = size.height
+                            )
+                            onDrawWithContent {
+                                drawContent()
+                                drawRect(gradient, blendMode = BlendMode.Multiply)
+                            }
+                        },
                     painter = painterResource(R.drawable.img2),
                     contentDescription = "background_image",
                     contentScale = ContentScale.FillBounds
@@ -76,11 +77,15 @@ fun Register(
 
                 Column(
                     Modifier
-                        .fillMaxSize(1f).verticalScroll(rememberScrollState())
-                        ,
+                        .fillMaxSize(1f)
+                        .verticalScroll(rememberScrollState()),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+
+                    if (waring) {
+                        Text(text = sponsorText, color = Color.Red);
+                    }
 
 
 //                    Card(
@@ -103,8 +108,15 @@ fun Register(
                     OutlinedTextField(
                         value = referal,
                         label = { Text(text = "Enter Referral Id") },
-                        modifier = Modifier.padding(10.dp),
-                        onValueChange = { value -> referal = value },
+                        isError = waring,
+                        modifier = Modifier
+                            .padding(10.dp)
+                            .onFocusChanged {
+                                if (!it.isFocused) {
+                                    viewModel.sponsorCheck()
+                                }
+                            },
+                        onValueChange = { value -> viewModel.setSponsorId(value) },
                     )
                     OutlinedTextField(
                         value = spouse,
@@ -125,10 +137,10 @@ fun Register(
                         onValueChange = { value -> lastName = value },
                     )
                     OutlinedTextField(
-                        value = contect,
+                        value = contact,
                         label = { Text(text = "Enter contact NO.") },
                         modifier = Modifier.padding(10.dp),
-                        onValueChange = { value -> contect = value },
+                        onValueChange = { value -> contact = value },
                     )
                     OutlinedTextField(
                         value = email,
