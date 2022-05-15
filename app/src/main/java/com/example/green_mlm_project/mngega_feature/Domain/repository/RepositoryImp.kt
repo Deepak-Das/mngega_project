@@ -1,6 +1,7 @@
 package com.example.green_mlm_project.mngega_feature.Domain.repository
 
 import com.example.green_mlm_project.mngega_feature.Domain.model.LoginResponse
+import com.example.green_mlm_project.mngega_feature.Domain.model.RegisterResponse
 import com.example.green_mlm_project.mngega_feature.Domain.model.SponsorResponse
 import com.example.green_mlm_project.mngega_feature.data.data_soruce.ApiService
 import com.example.green_mlm_project.mngega_feature.data.repository.Repository
@@ -15,5 +16,16 @@ class RepositoryImp @Inject constructor(
 
     override suspend fun sponsorCheck(sponsorId:String): SponsorResponse {
         return apiService.sponsorResponse(sponsorId)
+    }
+
+    override suspend fun register(
+        sponsorId: String,
+        fname: String,
+        lname: String,
+        mail: String,
+        contact: String,
+        password: String
+    ): RegisterResponse {
+        return apiService.registerResponse(sponsorId,fname,lname,mail,contact,password)
     }
 }

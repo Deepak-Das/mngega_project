@@ -1,6 +1,7 @@
 package com.example.green_mlm_project.mngega_feature.data.data_soruce
 
 import com.example.green_mlm_project.mngega_feature.Domain.model.LoginResponse
+import com.example.green_mlm_project.mngega_feature.Domain.model.RegisterResponse
 import com.example.green_mlm_project.mngega_feature.Domain.model.SponsorResponse
 import io.ktor.client.*
 import io.ktor.client.engine.android.*
@@ -33,6 +34,11 @@ class ApiService {
     suspend fun sponsorResponse(sponsorId:String):SponsorResponse{
         return client.get {
             url("https://api.greenworld.in.net/register.php?sponserid=${sponsorId}")
+        }
+    }
+    suspend fun registerResponse(sponsorId: String,fname:String,lname:String,mail:String,contact:String,password: String):RegisterResponse{
+        return client.post {
+            url("https://api.greenworld.in.net/register.php?sponserid=${sponsorId}&fname=${fname}&lname=${lname}&mail=${mail}&contact=${contact}&password=${password}")
         }
     }
 }

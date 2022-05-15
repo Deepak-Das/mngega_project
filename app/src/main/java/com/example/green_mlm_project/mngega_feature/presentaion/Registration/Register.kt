@@ -24,7 +24,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.green_mlm_project.R
-import com.example.green_mlm_project.mngega_feature.presentaion.ui.theme.PrimaryColor
+import com.example.green_mlm_project.mngega_feature.presentaion.ui.theme.DarkGreen
+import com.example.green_mlm_project.mngega_feature.presentaion.ui.theme.DarkYellow
 import com.example.green_mlm_project.mngega_feature.presentaion.ui.theme.amzonblue
 import com.example.green_mlm_project.mngega_feature.presentaion.ui.theme.amzongreen
 
@@ -40,14 +41,17 @@ fun Register(
 
 //    val focusRequester = FocusRequester()
 
-    var (response, sponsorText, referal, spouse, firstName, lastName, contact, email, password, waring
+    var (
+        sponsor_response,
+        register_response,
+        sponsorText, referal, spouse, firstName, lastName, contact, email, password, waring,registerStatus,registerText
     ) = viewModel.state.value
 
-    if (response == null) {
+    if (sponsor_response == null) {
         viewModel.setWaring(false)
-    } else if (response.error_code == 22) {
+    } else if (sponsor_response.error_code == 22) {
         viewModel.setWaring(true)
-    } else if (response.error_code == 11) {
+    } else if (sponsor_response.error_code == 11) {
         viewModel.setWaring(false)
     }
 
@@ -103,57 +107,60 @@ fun Register(
 //                        )
 //                    }
 
-                    Text(text = "Welcome to Green World", color = PrimaryColor)
+                    Text(text = "Welcome to Green World", color = DarkGreen)
+                    if (registerStatus){
+                        Text(text = registerText, color = DarkYellow)
+                    }
 
-                    OutlinedTextField(
-                        value = referal,
-                        label = { Text(text = "Enter Referral Id") },
-                        isError = waring,
-                        modifier = Modifier
-                            .padding(10.dp)
-                            .onFocusChanged {
-                                if (!it.isFocused) {
-                                    viewModel.sponsorCheck()
-                                }
-                            },
-                        onValueChange = { value -> viewModel.setSponsorId(value) },
-                    )
+                        OutlinedTextField(
+                            value = referal,
+                            label = { Text(text = "SponsorId") },
+                            isError = waring,
+                            modifier = Modifier
+                                .padding(10.dp)
+                                .onFocusChanged {
+                                    if (!it.isFocused) {
+                                        viewModel.sponsorCheck()
+                                    }
+                                },
+                            onValueChange = { value -> viewModel.setSponsorId(value) },
+                        )
                     OutlinedTextField(
                         value = spouse,
                         label = { Text(text = "Sponser Name") },
                         modifier = Modifier.padding(10.dp),
-                        onValueChange = { value -> spouse = value },
+                        onValueChange = { value -> viewModel.setSpouse(value) },
                     )
                     OutlinedTextField(
                         value = firstName,
                         label = { Text(text = "Enter first Name") },
                         modifier = Modifier.padding(10.dp),
-                        onValueChange = { value -> firstName = value },
+                        onValueChange = { value -> viewModel.setFirstName(value) },
                     )
                     OutlinedTextField(
                         value = lastName,
                         label = { Text(text = "Enter last Name") },
                         modifier = Modifier.padding(10.dp),
-                        onValueChange = { value -> lastName = value },
+                        onValueChange = { value -> viewModel.setLastName(value) },
                     )
                     OutlinedTextField(
                         value = contact,
                         label = { Text(text = "Enter contact NO.") },
                         modifier = Modifier.padding(10.dp),
-                        onValueChange = { value -> contact = value },
+                        onValueChange = { value -> viewModel.setContact(value) },
                     )
                     OutlinedTextField(
                         value = email,
                         label = { Text(text = "Enter Email Address") },
                         modifier = Modifier.padding(10.dp),
-                        onValueChange = { value -> email = value },
+                        onValueChange = { value -> viewModel.setEmail(value) },
                     )
                     OutlinedTextField(
                         value = password,
                         visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                         label = { Text(text = "Password") },
                         modifier = Modifier.padding(10.dp),
-                        onValueChange = { value -> password = value },
+                        onValueChange = { value -> viewModel.setPassword(value) },
                         trailingIcon = {
                             val image = if (passwordVisible)
                                 Icons.Filled.Visibility
@@ -167,7 +174,7 @@ fun Register(
 
 
 
-                    Button(onClick = { /*TODO*/ }) {
+                    Button(onClick = { viewModel.registerAccount()}) {
                         Text(text = "Sign up")
                     }
 

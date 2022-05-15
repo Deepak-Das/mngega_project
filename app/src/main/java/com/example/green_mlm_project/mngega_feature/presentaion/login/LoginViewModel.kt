@@ -22,7 +22,7 @@ class LoginViewModel @Inject constructor(
 
         userCase
 
-        userCase.loginCheck(username = state.value.username, password = state.value.password).also {
+        userCase.loginAccount(username = state.value.username, password = state.value.password).also {
             _state.value = state.value.copy(
                 response = it
             )
