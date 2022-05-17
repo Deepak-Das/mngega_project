@@ -108,9 +108,7 @@ fun Register(
 //                    }
 
                     Text(text = "Welcome to Green World", color = DarkGreen)
-                    if (registerStatus){
-                        Text(text = registerText, color = DarkYellow)
-                    }
+
 
                         OutlinedTextField(
                             value = referal,
@@ -173,10 +171,16 @@ fun Register(
                     )
 
 
-
+                    if (registerStatus){
+                        Text(text = registerText, color = Color.Red)
+                        Spacer(modifier = Modifier.height(15.dp))
+                    }
+                    
                     Button(onClick = { viewModel.registerAccount()}) {
                         Text(text = "Sign up")
                     }
+
+
 
 //                    Box(modifier = Modifier.fillMaxWidth(1f).height(30.dp))
                 }

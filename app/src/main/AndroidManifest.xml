@@ -11,14 +11,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Green_mlm_project"
-
+        android:windowSoftInputMode="adjustResize"
         >
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.Green_mlm_project.NoActionBar"
-            android:windowSoftInputMode="adjustResize"
 
             >
             <intent-filter>

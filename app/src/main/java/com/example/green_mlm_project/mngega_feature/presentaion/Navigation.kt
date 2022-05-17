@@ -24,7 +24,7 @@ fun navigation(){
             Register(navController = navController)
         }
         composable(Screen.Dashboard.route) {
-            Dashboard()
+            Dashboard(navController)
         }
     }
 }

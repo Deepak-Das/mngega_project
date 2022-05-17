@@ -32,6 +32,7 @@ import com.example.green_mlm_project.mngega_feature.presentaion.ui.theme.Purple7
 import com.example.green_mlm_project.mngega_feature.presentaion.ui.theme.amzonblue
 import com.example.green_mlm_project.mngega_feature.presentaion.ui.theme.amzongreen
 import com.example.green_mlm_project.mngega_feature.presentaion.utli.Screen
+import kotlinx.coroutines.launch
 
 
 fun toast(message: String, context: Context) {
@@ -44,6 +45,8 @@ fun Login(
     viewModel: LoginViewModel = hiltViewModel()
 
 ) {
+
+    val scope = rememberCoroutineScope()
 
     val state = viewModel.state.value
 
@@ -58,26 +61,10 @@ fun Login(
 
 
 
-//    if (state.username.isEmpty()) {
-//        viewModel.setWarning(false)
-//        usernameLabel = "Username"
-//    }
-//    if (state.password.isEmpty()) {
-//        viewModel.setWarning(false)
-//        passwordHasError = false
-//        passwordLabel = "Password"
-//    }
 
-    if (state.response?.error_code == 0) {
-        navController.navigate(Screen.Dashboard.route)
-    } else if (state.response?.error_code ==2) {
-        errorText="Invalid username or password"
-        viewModel.setWarning(true)
-    }else if (state.response?.error_code ==3) {
-        errorText="Please provide all data"
-        viewModel.setWarning(true)
-    }else if(state.response==null){
-    }
+
+
+
 
 
 
@@ -85,6 +72,25 @@ fun Login(
     Scaffold(
 
         content = {
+
+
+//            if (state.username.isEmpty()) {
+//                viewModel.setWarning(false)
+//                usernameLabel = "Username"
+//            }
+//            if (state.password.isEmpty()) {
+//                viewModel.setWarning(false)
+////        passwordHasError = false
+//                passwordLabel = "Password"
+//            }
+
+            if (state.response?.error_code == 0) {
+                navController.navigate(Screen.Dashboard.route){
+                    popUpTo(Screen.Login.route) {
+                        inclusive = true
+                    }
+                }
+            }
 
             Box {
                 Image(
@@ -112,7 +118,7 @@ fun Login(
                 ) {
 
                     if (state.warning) {
-                        Text(text = errorText, color = Color.Red)
+                        Text(text = state.errorText, color = Color.Red)
                     }
 
 
@@ -127,7 +133,7 @@ fun Login(
                         ,
                         value = state.username,
                         label = { Text(text = usernameLabel) },
-                        onValueChange = { value -> viewModel.setUsername(value) },
+                        onValueChange = { value -> scope.launch { viewModel.setUsername(value) } },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                     )
                     OutlinedTextField(
@@ -136,7 +142,7 @@ fun Login(
                         visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                         label = { Text(text = passwordLabel) },
                         modifier = Modifier.padding(10.dp),
-                        onValueChange = { value -> viewModel.setPassword(value) },
+                        onValueChange = { value -> scope.launch { viewModel.setPassword(value) } },
                         trailingIcon = {
                             val image = if (passwordVisible)
                                 Icons.Filled.Visibility
@@ -153,20 +159,10 @@ fun Login(
                     )
                     Row {
                         Button(onClick = {
-//                    when {
-//                        password.isEmpty() -> {
-//                            passwordHasError = true
-//                            passwordLabel = "password can't be empty"
-//                        }
-//                        !Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
-//                            emailHasError = true
-//                            emailLabel = "Invalid email address"
-//                        }
-//                        else -> toast(message = "All fields are valid!", context)
-//                    }
 
-//                            navController.navigate("dashboard")
                             viewModel.loginCall()
+//                            navController.navigate(Screen.Dashboard.route)
+
 
                         }) {
                             Text("login")
