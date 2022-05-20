@@ -5,6 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.green_mlm_project.mngega_feature.presentaion.Registration.Register
+import com.example.green_mlm_project.mngega_feature.presentaion.dashboard.Dash
 import com.example.green_mlm_project.mngega_feature.presentaion.dashboard.Dashboard
 import com.example.green_mlm_project.mngega_feature.presentaion.login.Login
 import com.example.green_mlm_project.mngega_feature.presentaion.utli.Screen

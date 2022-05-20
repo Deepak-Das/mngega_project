@@ -16,5 +16,6 @@ data class RegisterState(
     var password: String = "",
     var waring:Boolean=false,
     var registerStatus:Boolean=false,
-    var registerText:String=""
+    var registerText:String="",
+    var connection:Boolean=false
 )

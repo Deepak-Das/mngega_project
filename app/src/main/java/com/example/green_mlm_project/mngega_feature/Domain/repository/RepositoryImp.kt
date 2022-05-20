@@ -10,7 +10,7 @@ import javax.inject.Inject
 class RepositoryImp @Inject constructor(
     private val apiService: ApiService
 ) : Repository {
-    override suspend fun login(username: String, password: String): LoginResponse {
+    override suspend fun login(username: String, password: String): LoginResponse? {
         return apiService.login(username, password)
     }
 

@@ -7,5 +7,7 @@ data class LoginState(
     val username:String="",
     val password:String="",
     val warning:Boolean=false,
-    var errorText:String=""
+    var errorText:String="",
+    var contection:Boolean=false,
+
 )

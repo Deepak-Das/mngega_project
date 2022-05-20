@@ -11,7 +11,7 @@ class GetLoginStatus @Inject constructor(private  val repository: Repository) {
 
     private var getNotesJob: Job? = null
 
-    suspend operator fun invoke(username:String, password:String):LoginResponse{
+    suspend operator fun invoke(username:String, password:String):LoginResponse?{
 
         return repository.login(username = username,password = password)
 

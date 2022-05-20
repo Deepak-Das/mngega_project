@@ -1,15 +1,16 @@
 package com.example.green_mlm_project.mngega_feature.presentaion.dashboard
 
 import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
@@ -28,16 +29,86 @@ import androidx.navigation.NavController
 import com.example.green_mlm_project.R
 import com.example.green_mlm_project.mngega_feature.presentaion.ui.theme.*
 
+import androidx.compose.foundation.lazy.items
+import androidx.hilt.navigation.compose.hiltViewModel
+
+val messages = listOf(
+    Item(
+        title = "Admin",
+        subTitle = "MyUser(active)",
+        iconName = Icons.Default.Person,
+        boxColor = PrimaryColor,
+        iconBoxColor = Color.Red
+    ),
+    Item(
+        title = "0",
+        subTitle = "DIRECT REFERAL",
+        iconName = Icons.Default.Group,
+        boxColor = SkyBlue,
+        iconBoxColor = Color.Red
+    ),
+    Item(
+        title = "3",
+        subTitle = "AUTO UPGRADE",
+        iconName = Icons.Default.Group,
+        boxColor = DarkYellow,
+        iconBoxColor = Color.Red
+    ),
+    Item(
+        iconName = Icons.Default.Groups,
+        title = "3",
+        subTitle = "MY TEAM",
+        iconBoxColor = DarkGreen
+    ),
+
+    Item(
+        iconName = Icons.Default.Groups,
+        title = "0",
+        subTitle = "INACTIVE",
+        boxColor = LightRed,
+        iconBoxColor = DarkGreen
+    ),
+    Item(
+        iconName = Icons.Default.Money,
+        title = "46535/-",
+        subTitle = "E-WALLET",
+        iconBoxColor = NaviBlue
+    ),
+    Item(
+        iconName = Icons.Default.PushPin,
+        title = "79",
+        subTitle = "AVAILABLE e-PIN",
+        boxColor = DarkYellow,
+        iconBoxColor = NaviBlue
+    ),
+    Item(
+        iconName = Icons.Default.PushPin,
+        title = "9",
+        subTitle = "EXPIRED e-PIN",
+        boxColor = LightRed,
+        iconBoxColor = DarkGreen
+    ),
+    Item(
+        iconName = Icons.Default.Money,
+        title = "100",
+        subTitle = "TOTAL INCOME",
+        boxColor = DarkYellow,
+        iconBoxColor = LightRed
+    ),
+)
+
 
 @Composable
 fun Dashboard(
     navController: NavController,
+    viewModel: DashbordViewModel= hiltViewModel()
 
     ) {
 //    val materialBlue700 = Color(0xFF1976D2)
 //    val scope = rememberCoroutineScope()
-    val scrollState=rememberScrollState()
+    val scrollState = rememberScrollState()
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
+
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -62,122 +133,13 @@ fun Dashboard(
 //            DrawerContent()
 //        },
         content = {
-            Box {
-
-                Image(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .drawWithCache {
-                            val gradient = Brush.verticalGradient(
-                                colors = listOf(amzonblue, amzongreen),
-                                startY = size.height / 3,
-                                endY = size.height
-                            )
-                            onDrawWithContent {
-                                drawContent()
-                                drawRect(gradient, blendMode = BlendMode.Multiply)
-                            }
-                        }
-                    ,
-                    painter = painterResource(R.drawable.img2),
-                    contentDescription = "background_image",
-                    contentScale = ContentScale.FillBounds
-                )
-                Column(
-                    modifier = Modifier
-                        .padding(vertical= 20.dp)
-                        .fillMaxSize(1f)
-                        .verticalScroll(scrollState), horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-
-
-                    BoxButton(iconName = Icons.Default.Person)
-                    Spacer(Modifier.height(10.dp))
-
-                    BoxButton(
-                        iconName = Icons.Default.Groups,
-                        title = "0",
-                        subTitle = "DIRECT REFERAL",
-                        boxColor = SkyBlue
-                    )
-
-
-                    Spacer(Modifier.height(10.dp))
-
-
-
-                    BoxButton(
-                        iconName = Icons.Default.Groups,
-                        title = "3",
-                        subTitle = "AUTO UPGRADE",
-                        boxColor = DarkYellow
-                    )
-                    Spacer(Modifier.height(10.dp))
-
-                    BoxButton(
-                        iconName = Icons.Default.Groups,
-                        title = "3",
-                        subTitle = "MY TEAM",
-                        iconBoxColor = DarkGreen
-                    )
-
-
-                    Spacer(Modifier.height(10.dp))
-
-                    BoxButton(
-                        iconName = Icons.Default.Groups,
-                        title = "0",
-                        subTitle = "INACTIVE",
-                        boxColor = LightRed,
-                        iconBoxColor = DarkGreen
-                    )
-                    Spacer(Modifier.height(10.dp))
-
-                    BoxButton(
-                        iconName = Icons.Default.Money,
-                        title = "46535/-",
-                        subTitle = "E-WALLET",
-                        iconBoxColor = NaviBlue
-                    )
-
-
-                    Spacer(Modifier.height(10.dp))
-
-                    BoxButton(
-                        iconName = Icons.Default.PushPin,
-                        title = "79",
-                        subTitle = "AVAILABLE e-PIN",
-                        boxColor = DarkYellow,
-                        iconBoxColor = NaviBlue
-                    )
-                    Spacer(Modifier.height(10.dp))
-
-                    BoxButton(
-                        iconName = Icons.Default.PushPin,
-                        title = "9",
-                        subTitle = "EXPIRED e-PIN",
-                        boxColor = LightRed,
-                        iconBoxColor = DarkGreen
-                    )
-
-                    Spacer(Modifier.height(10.dp))
-
-                    Row(Modifier.fillMaxWidth(1f), horizontalArrangement = Arrangement.Center) {
-                        BoxButton(
-                            iconName = Icons.Default.Money,
-                            title = "100",
-                            subTitle = "TOTAL INCOME",
-                            boxColor = DarkYellow,
-                            iconBoxColor = LightRed
-                        )
-                    }
-
-
-                }
-            }
+            Content()
+//                  content2()
         },
     )
 }
+
+
 
 @Composable
 fun DrawerContent(
@@ -204,6 +166,57 @@ fun DrawerContent(
     }
 }
 
+@Composable
+fun Content() {
+    Box {
+
+        Image(
+            modifier = Modifier
+                .fillMaxSize()
+                .drawWithCache {
+                    val gradient = Brush.verticalGradient(
+                        colors = listOf(amzonblue, amzongreen),
+                        startY = size.height / 3,
+                        endY = size.height
+                    )
+                    onDrawWithContent {
+                        drawContent()
+                        drawRect(gradient, blendMode = BlendMode.Multiply)
+                    }
+                },
+            painter = painterResource(R.drawable.img2),
+            contentDescription = "background_image",
+            contentScale = ContentScale.Crop
+        )
+
+
+
+        LazyColumn(
+            Modifier
+                .fillMaxSize(1f)
+                .padding(vertical = 10.dp),
+           horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            items(messages) { message ->
+                BoxButton(title = message.title,subTitle = message.subTitle,iconName = message.iconName,boxColor = message.boxColor,iconBoxColor = message.iconBoxColor)
+                Spacer(modifier = Modifier.height(20.dp))
+
+            }
+        }
+        
+    }
+}
+data class Item(
+    val title: String,
+    val subTitle: String,
+    val iconName: ImageVector = Icons.Default.Group,
+    val boxColor: Color = PrimaryColor,
+    val iconBoxColor: Color = Color.Red
+)
+
+
+
 
 @Preview(showBackground = true)
 @Composable
@@ -213,66 +226,3 @@ fun DefaultPreview() {
     }
 }
 
-@Composable
-fun BoxButton(
-    iconName: ImageVector = Icons.Default.Group,
-    title: String = "Admin",
-    subTitle: String = "My User(active)",
-    boxColor: Color = PrimaryColor,
-    iconBoxColor: Color = Color.Red,
-) {
-    val configuration = LocalConfiguration.current
-
-    val height = 80.dp
-    val screenWidth = configuration.screenWidthDp.dp-100.dp
-    Row(
-        Modifier
-            .width(screenWidth)
-            .height(height), horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Box(
-            modifier = Modifier
-                .width(screenWidth - 100.dp)
-                .fillMaxHeight(1f)
-                .background(
-                    shape = RoundedCornerShape(topStart = 4.dp, bottomStart = 4.dp),
-                    color = boxColor
-                )
-                .clickable {
-                    Log.i(
-                        "TAG",
-                        "BoxButton: click"
-                    )
-                },
-
-            ) {
-                Column(
-                    Modifier
-                        .padding(10.dp)
-                        .fillMaxSize(1f),verticalArrangement = Arrangement.SpaceAround) {
-                    Text(text = title, color = BoxText, fontWeight = FontWeight.Bold)
-                    Text(text = subTitle, color = BoxText)
-                }
-
-
-        }
-        Box(
-            modifier = Modifier
-                .fillMaxHeight(1f)
-                .width(135.dp)
-                .background(
-                    shape = RoundedCornerShape(topEnd = 4.dp, bottomEnd = 4.dp),
-                    color = iconBoxColor
-                ),
-            Alignment.Center
-
-        ) {
-
-            Icon(
-                imageVector = iconName, contentDescription = "", tint = BoxText, modifier = Modifier
-                    .size(60.dp)
-                    .padding(8.dp)
-            )
-        }
-    }
-}

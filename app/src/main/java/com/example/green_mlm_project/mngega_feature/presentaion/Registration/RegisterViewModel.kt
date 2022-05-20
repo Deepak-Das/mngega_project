@@ -122,4 +122,10 @@ class RegisterViewModel @Inject constructor(private val useCase: UseCase) : View
             registerStatus = flag
         )
     }
+
+    fun setConnection(flag: Boolean) {
+        _state.value = state.value.copy(
+            connection = flag
+        )
+    }
 }
