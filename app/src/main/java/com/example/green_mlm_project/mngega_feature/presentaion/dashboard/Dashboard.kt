@@ -143,13 +143,7 @@ fun Dashboard(
                 boxColor = SkyBlue,
                 iconBoxColor = Color.Red
             ),
-//            Item(
-//                title = "3",
-//                subTitle = "AUTO UPGRADE",
-//                iconName = Icons.Default.Group,
-//                boxColor = DarkYellow,
-//                iconBoxColor = Color.Red
-//            ),
+
             Item(
                 iconName = Icons.Default.Groups,
                 title = state.response.MY_TEAM,
@@ -164,29 +158,43 @@ fun Dashboard(
                 boxColor = LightRed,
                 iconBoxColor = DarkGreen
             ),
-//            Item(
-//                iconName = Icons.Default.Money,
-//                title = "46535/-",
-//                subTitle = "E-WALLET",
-//                iconBoxColor = NaviBlue
-//            ),
-//            Item(
-//                iconName = Icons.Default.PushPin,
-//                title = "79",
-//                subTitle = "AVAILABLE e-PIN",
-//                boxColor = DarkYellow,
-//                iconBoxColor = NaviBlue
-//            ),
-//            Item(
-//                iconName = Icons.Default.PushPin,
-//                title = "9",
-//                subTitle = "EXPIRED e-PIN",
-//                boxColor = LightRed,
-//                iconBoxColor = DarkGreen
-//            ),
+            Item(
+                iconName = Icons.Default.AccountBalanceWallet,
+                title = state.response.SELF_INCOME,
+                subTitle = "SELF WALLET",
+                iconBoxColor = NaviBlue
+            ),
+            Item(
+                title = "3",
+                subTitle = "LEVEL WALLET",
+                iconName = Icons.Default.AccountBalanceWallet,
+                boxColor = DarkYellow,
+                iconBoxColor = Color.Red
+            ),
+            Item(
+                title = state.response.MAIN_WALLET,
+                subTitle = "MAIN WALLET",
+                iconName = Icons.Default.AccountBalanceWallet,
+                boxColor = DarkYellow,
+                iconBoxColor = Color.Red
+            ),
+            Item(
+                iconName = Icons.Default.PushPin,
+                title = state.response.AVAILABLE_E_PIN,
+                subTitle = "AVAILABLE e-PIN",
+                boxColor = DarkYellow,
+                iconBoxColor = NaviBlue
+            ),
+            Item(
+                iconName = Icons.Default.PushPin,
+                title = state.response.EXPIRE_EPIN,
+                subTitle = "EXPIRED e-PIN",
+                boxColor = LightRed,
+                iconBoxColor = DarkGreen
+            ),
             Item(
                 iconName = Icons.Default.Money,
-                title = "100",
+                title = state.response.TOTAL_INCOME.toString(),
                 subTitle = "TOTAL INCOME",
                 boxColor = DarkYellow,
                 iconBoxColor = LightRed
