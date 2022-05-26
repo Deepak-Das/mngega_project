@@ -1,10 +1,7 @@
 package com.example.green_mlm_project.di
 
 import com.example.green_mlm_project.mngega_feature.Domain.repository.RepositoryImp
-import com.example.green_mlm_project.mngega_feature.Domain.use_case.GetLoginStatus
-import com.example.green_mlm_project.mngega_feature.Domain.use_case.GetRegisterStatus
-import com.example.green_mlm_project.mngega_feature.Domain.use_case.SponsorSatus
-import com.example.green_mlm_project.mngega_feature.Domain.use_case.UseCase
+import com.example.green_mlm_project.mngega_feature.Domain.use_case.*
 import com.example.green_mlm_project.mngega_feature.data.data_soruce.ApiService
 import com.example.green_mlm_project.mngega_feature.data.repository.Repository
 import dagger.Module
@@ -35,7 +32,8 @@ object AppModule {
         return UseCase(
             loginAccount = GetLoginStatus(repository),
             sponsorCheck = SponsorSatus(repository),
-            registerAccount = GetRegisterStatus(repository)
+            registerAccount = GetRegisterStatus(repository),
+            GetDashboardDetail = GetDashboardDetails(repository)
         )
     }
 }

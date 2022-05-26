@@ -25,6 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.green_mlm_project.R
@@ -71,14 +72,14 @@ fun Register(
 //    LaunchedEffect(register_response){
 //        progress=false
 //    }
-//    LaunchedEffect("fakeKey") {
-//        scope.launch {
-//            context.checkConnection().collect {
-//                viewModel.setConnection(it);
-//            }
-//        }
-//
-//    }
+    LaunchedEffect("fakeKey") {
+        scope.launch {
+            context.checkConnection().collect {
+                viewModel.setConnection(it);
+            }
+        }
+
+    }
 
     Scaffold(
 
@@ -103,20 +104,20 @@ fun Register(
                     contentDescription = "background_image",
                     contentScale = ContentScale.Crop
                 )
-//                if(!connection){
-//                    Box(
-//                        Modifier
-//                            .fillMaxWidth(1f)
-//                            .heightIn(40.dp)
-//                            .background(color = LightRed)
-//                            .align(alignment = Alignment.TopCenter),
-//                        contentAlignment = Alignment.Center
-//                    ) {
-//                        Text(text = "No Internet Connection",color = Color.White)
-//
-//
-//                    }
-//                }
+                if(!connection){
+                    Box(
+                        Modifier
+                            .fillMaxWidth(1f).zIndex(1f)
+                            .heightIn(40.dp)
+                            .background(color = LightRed)
+                            .align(alignment = Alignment.TopCenter),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(text = "No Internet Connection",color = Color.White)
+
+
+                    }
+                }
 
                 Card(
                     modifier = Modifier

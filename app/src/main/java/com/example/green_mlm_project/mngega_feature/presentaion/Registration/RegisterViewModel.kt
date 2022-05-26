@@ -13,47 +13,54 @@ import javax.inject.Inject
 @HiltViewModel
 class RegisterViewModel @Inject constructor(private val useCase: UseCase) : ViewModel() {
 
+
     private val _state = mutableStateOf(RegisterState())
     val state: State<RegisterState> = _state
 
 
     fun sponsorCheck() = viewModelScope.launch {
-        useCase.sponsorCheck(state.value.sponsorId).also {
-            if (it.error_code == 22)
-                setSponsorText("invalid sponsor id")
-            else if (it.error_code == 11)
-                setWaring(false)
+        if(state.value.connection){
+            useCase.sponsorCheck(state.value.sponsorId).also {
+                if (it.error_code == 22)
+                    setSponsorText("invalid sponsor id")
+                else if (it.error_code == 11)
+                    setWaring(false)
 
-            Log.i("sponser", "sponsorCheck: $it")
-            _state.value = state.value.copy(
-                sponsor_response = it
-            )
+                Log.i("sponser", "sponsorCheck: $it")
+                _state.value = state.value.copy(
+                    sponsor_response = it
+                )
+            }
         }
     }
 
     fun registerAccount() = viewModelScope.launch {
-        useCase.registerAccount(
-            state.value.sponsorId,
-            state.value.firstName,
-            state.value.lastName,
-            state.value.email,
-            state.value.contact,
-            state.value.password
-        ).also {
+        if(state.value.connection){
+            useCase.registerAccount(
+                state.value.sponsorId,
+                state.value.firstName,
+                state.value.lastName,
+                state.value.email,
+                state.value.contact,
+                state.value.password
+            ).also {
 
-            when (it.error_code) {
-                0 -> setRegisterText("Account created successfully")
-                1 -> setRegisterText("id restrictions for same data")
-                2 -> setRegisterText("invalid sponsorid")
-                3 -> setRegisterText("please provide all data")
+                when (it.error_code) {
+                    0 -> setRegisterText("Account created successfully")
+                    1 -> setRegisterText("id restrictions for same data")
+                    2 -> setRegisterText("invalid sponsorid")
+                    3 -> setRegisterText("please provide all data")
+                }
+
+                setRegisterStatus(true)
+
+
+
+                Log.i("sponser", "sponsorCheck: $it")
+                _state.value = state.value.copy(
+                    registor_response = it
+                )
             }
-            setRegisterStatus(true)
-
-
-            Log.i("sponser", "sponsorCheck: $it")
-            _state.value = state.value.copy(
-                registor_response = it
-            )
         }
     }
 

@@ -74,8 +74,7 @@ fun Login(
     LaunchedEffect(state.response?.error_code) {
         startProgressBar=false
         if (state.response?.error_code == 0) {
-            navController.navigate(Screen.Dashboard.route){
-                popUpTo(Screen.Dashboard.route)
+            navController.navigate(Screen.Dashboard.route+"?primaryId=${state.response.primary_id}",){
             }
 
         }
@@ -97,6 +96,7 @@ fun Login(
     DisposableEffect(key1 = state.response?.error_code==0) {
         onDispose {
             viewModel.setState()
+
         }
     }
 

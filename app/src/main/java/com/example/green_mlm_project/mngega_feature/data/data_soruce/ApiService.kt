@@ -1,6 +1,7 @@
 package com.example.green_mlm_project.mngega_feature.data.data_soruce
 
 import android.util.Log
+import com.example.green_mlm_project.mngega_feature.Domain.model.DashboardResponse
 import com.example.green_mlm_project.mngega_feature.Domain.model.LoginResponse
 import com.example.green_mlm_project.mngega_feature.Domain.model.RegisterResponse
 import com.example.green_mlm_project.mngega_feature.Domain.model.SponsorResponse
@@ -12,6 +13,7 @@ import io.ktor.client.features.json.*
 import io.ktor.client.request.*
 import io.ktor.network.sockets.*
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class ApiService {
 
@@ -49,5 +51,18 @@ class ApiService {
         return client.post {
             url("https://api.greenworld.in.net/register.php?sponserid=${sponsorId}&fname=${fname}&lname=${lname}&mail=${mail}&contact=${contact}&password=${password}")
         }
+    }
+
+    suspend fun dashboardResponse(primary_id:String):Flow<DashboardResponse> = flow {
+
+        try {
+            emit(client.get {
+                url("https://api.greenworld.in.net/dashboard.php?primary_id=${primary_id}")
+            })
+        }catch (e:ConnectTimeoutException){
+//            emit(response)
+            Log.d("TAG", "dashboardResponse: connection Time out")
+        }
+
     }
 }

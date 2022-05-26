@@ -1,11 +1,12 @@
 package com.example.green_mlm_project.mngega_feature.presentaion
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.green_mlm_project.mngega_feature.presentaion.Registration.Register
-import com.example.green_mlm_project.mngega_feature.presentaion.dashboard.Dash
 import com.example.green_mlm_project.mngega_feature.presentaion.dashboard.Dashboard
 import com.example.green_mlm_project.mngega_feature.presentaion.login.Login
 import com.example.green_mlm_project.mngega_feature.presentaion.utli.Screen
@@ -24,8 +25,11 @@ fun navigation(){
         composable(Screen.Register.route) {
             Register(navController = navController)
         }
-        composable(Screen.Dashboard.route) {
-            Dashboard(navController)
+        composable(Screen.Dashboard.route+"?primaryId={primaryId}",
+            arguments = listOf(navArgument("primaryId") { type = NavType.StringType })
+
+        ) {
+            Dashboard(navController, primaryKey = it.arguments?.getString("primaryId"))
         }
     }
 }

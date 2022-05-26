@@ -1,16 +1,15 @@
 package com.example.green_mlm_project.mngega_feature.presentaion.dashboard
 
 import android.util.Log
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
@@ -19,96 +18,181 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.green_mlm_project.R
 import com.example.green_mlm_project.mngega_feature.presentaion.ui.theme.*
 
-import androidx.compose.foundation.lazy.items
 import androidx.hilt.navigation.compose.hiltViewModel
 
-val messages = listOf(
-    Item(
-        title = "Admin",
-        subTitle = "MyUser(active)",
-        iconName = Icons.Default.Person,
-        boxColor = PrimaryColor,
-        iconBoxColor = Color.Red
-    ),
-    Item(
-        title = "0",
-        subTitle = "DIRECT REFERAL",
-        iconName = Icons.Default.Group,
-        boxColor = SkyBlue,
-        iconBoxColor = Color.Red
-    ),
-    Item(
-        title = "3",
-        subTitle = "AUTO UPGRADE",
-        iconName = Icons.Default.Group,
-        boxColor = DarkYellow,
-        iconBoxColor = Color.Red
-    ),
-    Item(
-        iconName = Icons.Default.Groups,
-        title = "3",
-        subTitle = "MY TEAM",
-        iconBoxColor = DarkGreen
-    ),
+//val messages = listOf(
+//    Item(
+//        title = "Admin",
+//        subTitle = "MyUser(active)",
+//        iconName = Icons.Default.Person,
+//        boxColor = PrimaryColor,
+//        iconBoxColor = Color.Red
+//    ),
+//    Item(
+//        title = "0",
+//        subTitle = "DIRECT REFERAL",
+//        iconName = Icons.Default.Group,
+//        boxColor = SkyBlue,
+//        iconBoxColor = Color.Red
+//    ),
+//    Item(
+//        title = "3",
+//        subTitle = "AUTO UPGRADE",
+//        iconName = Icons.Default.Group,
+//        boxColor = DarkYellow,
+//        iconBoxColor = Color.Red
+//    ),
+//    Item(
+//        iconName = Icons.Default.Groups,
+//        title = "3",
+//        subTitle = "MY TEAM",
+//        iconBoxColor = DarkGreen
+//    ),
+//
+//    Item(
+//        iconName = Icons.Default.Groups,
+//        title = "0",
+//        subTitle = "INACTIVE",
+//        boxColor = LightRed,
+//        iconBoxColor = DarkGreen
+//    ),
+//    Item(
+//        iconName = Icons.Default.Money,
+//        title = "46535/-",
+//        subTitle = "E-WALLET",
+//        iconBoxColor = NaviBlue
+//    ),
+//    Item(
+//        iconName = Icons.Default.PushPin,
+//        title = "79",
+//        subTitle = "AVAILABLE e-PIN",
+//        boxColor = DarkYellow,
+//        iconBoxColor = NaviBlue
+//    ),
+//    Item(
+//        iconName = Icons.Default.PushPin,
+//        title = "9",
+//        subTitle = "EXPIRED e-PIN",
+//        boxColor = LightRed,
+//        iconBoxColor = DarkGreen
+//    ),
+//    Item(
+//        iconName = Icons.Default.Money,
+//        title = "100",
+//        subTitle = "TOTAL INCOME",
+//        boxColor = DarkYellow,
+//        iconBoxColor = LightRed
+//    ),
+//)
 
-    Item(
-        iconName = Icons.Default.Groups,
-        title = "0",
-        subTitle = "INACTIVE",
-        boxColor = LightRed,
-        iconBoxColor = DarkGreen
-    ),
-    Item(
-        iconName = Icons.Default.Money,
-        title = "46535/-",
-        subTitle = "E-WALLET",
-        iconBoxColor = NaviBlue
-    ),
-    Item(
-        iconName = Icons.Default.PushPin,
-        title = "79",
-        subTitle = "AVAILABLE e-PIN",
-        boxColor = DarkYellow,
-        iconBoxColor = NaviBlue
-    ),
-    Item(
-        iconName = Icons.Default.PushPin,
-        title = "9",
-        subTitle = "EXPIRED e-PIN",
-        boxColor = LightRed,
-        iconBoxColor = DarkGreen
-    ),
-    Item(
-        iconName = Icons.Default.Money,
-        title = "100",
-        subTitle = "TOTAL INCOME",
-        boxColor = DarkYellow,
-        iconBoxColor = LightRed
-    ),
-)
+//
+//Id HOLDER NAME
+//MY STATUS
+//DIRECT REFERRAL
+//MY TEAM
+//INACTIVE TEAM
+//SELF INCOME
+//LEVEL WALLET
+//MEN WALLET
+//AVAILABLE E PIN
+//EXPIRE EPIN
+//TOTAL INCOME
+//REFERRAL LINK
+//TOP 20 LEADERS
 
 
 @Composable
 fun Dashboard(
     navController: NavController,
-    viewModel: DashbordViewModel= hiltViewModel()
+    viewModel: DashbordViewModel= hiltViewModel(),
+    primaryKey: String?
 
     ) {
-//    val materialBlue700 = Color(0xFF1976D2)
 //    val scope = rememberCoroutineScope()
     val scrollState = rememberScrollState()
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
+//    Log.d("TAG", "primarykey: ${primaryKey}")
+    val state=viewModel.state.value
+    var dashList by remember {
+        mutableStateOf(emptyList<Item>())
+    }
 
+
+    LaunchedEffect(key1 = state.response){
+//        viewModel.setreponse(primaryKey)
+        dashList = listOf(
+            Item(
+                title = state.response.HOLDER_NAME,
+                subTitle = "MyUser(${state.response.STATUS})",
+                iconName = Icons.Default.Person,
+                boxColor = PrimaryColor,
+                iconBoxColor = Color.Red
+            ),
+            Item(
+                title = state.response.DIRECT_REFERRAL,
+                subTitle = "DIRECT REFEERAL",
+                iconName = Icons.Default.Group,
+                boxColor = SkyBlue,
+                iconBoxColor = Color.Red
+            ),
+//            Item(
+//                title = "3",
+//                subTitle = "AUTO UPGRADE",
+//                iconName = Icons.Default.Group,
+//                boxColor = DarkYellow,
+//                iconBoxColor = Color.Red
+//            ),
+            Item(
+                iconName = Icons.Default.Groups,
+                title = state.response.MY_TEAM,
+                subTitle = "MY TEAM",
+                iconBoxColor = DarkGreen
+            ),
+
+            Item(
+                iconName = Icons.Default.Groups,
+                title = state.response.INACTIVE_TEAM,
+                subTitle = "INACTIVE",
+                boxColor = LightRed,
+                iconBoxColor = DarkGreen
+            ),
+//            Item(
+//                iconName = Icons.Default.Money,
+//                title = "46535/-",
+//                subTitle = "E-WALLET",
+//                iconBoxColor = NaviBlue
+//            ),
+//            Item(
+//                iconName = Icons.Default.PushPin,
+//                title = "79",
+//                subTitle = "AVAILABLE e-PIN",
+//                boxColor = DarkYellow,
+//                iconBoxColor = NaviBlue
+//            ),
+//            Item(
+//                iconName = Icons.Default.PushPin,
+//                title = "9",
+//                subTitle = "EXPIRED e-PIN",
+//                boxColor = LightRed,
+//                iconBoxColor = DarkGreen
+//            ),
+            Item(
+                iconName = Icons.Default.Money,
+                title = "100",
+                subTitle = "TOTAL INCOME",
+                boxColor = DarkYellow,
+                iconBoxColor = LightRed
+            ),
+        )
+    }
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -133,7 +217,7 @@ fun Dashboard(
 //            DrawerContent()
 //        },
         content = {
-            Content()
+            Content(dashList = dashList)
 //                  content2()
         },
     )
@@ -167,7 +251,7 @@ fun DrawerContent(
 }
 
 @Composable
-fun Content() {
+fun Content( dashList: List<Item>) {
     Box {
 
         Image(
@@ -198,8 +282,13 @@ fun Content() {
            horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            items(messages) { message ->
-                BoxButton(title = message.title,subTitle = message.subTitle,iconName = message.iconName,boxColor = message.boxColor,iconBoxColor = message.iconBoxColor)
+            items(dashList) { message ->
+                BoxButton(
+                    title = message.title,
+                    subTitle = message.subTitle,
+                    iconName = message.iconName,
+                    boxColor = message.boxColor,
+                    iconBoxColor = message.iconBoxColor)
                 Spacer(modifier = Modifier.height(20.dp))
 
             }
