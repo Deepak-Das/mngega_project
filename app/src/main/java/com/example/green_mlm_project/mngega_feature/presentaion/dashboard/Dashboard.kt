@@ -1,11 +1,9 @@
 package com.example.green_mlm_project.mngega_feature.presentaion.dashboard
 
-import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -18,7 +16,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -27,86 +24,8 @@ import com.example.green_mlm_project.R
 import com.example.green_mlm_project.mngega_feature.presentaion.ui.theme.*
 
 import androidx.hilt.navigation.compose.hiltViewModel
-
-//val messages = listOf(
-//    Item(
-//        title = "Admin",
-//        subTitle = "MyUser(active)",
-//        iconName = Icons.Default.Person,
-//        boxColor = PrimaryColor,
-//        iconBoxColor = Color.Red
-//    ),
-//    Item(
-//        title = "0",
-//        subTitle = "DIRECT REFERAL",
-//        iconName = Icons.Default.Group,
-//        boxColor = SkyBlue,
-//        iconBoxColor = Color.Red
-//    ),
-//    Item(
-//        title = "3",
-//        subTitle = "AUTO UPGRADE",
-//        iconName = Icons.Default.Group,
-//        boxColor = DarkYellow,
-//        iconBoxColor = Color.Red
-//    ),
-//    Item(
-//        iconName = Icons.Default.Groups,
-//        title = "3",
-//        subTitle = "MY TEAM",
-//        iconBoxColor = DarkGreen
-//    ),
-//
-//    Item(
-//        iconName = Icons.Default.Groups,
-//        title = "0",
-//        subTitle = "INACTIVE",
-//        boxColor = LightRed,
-//        iconBoxColor = DarkGreen
-//    ),
-//    Item(
-//        iconName = Icons.Default.Money,
-//        title = "46535/-",
-//        subTitle = "E-WALLET",
-//        iconBoxColor = NaviBlue
-//    ),
-//    Item(
-//        iconName = Icons.Default.PushPin,
-//        title = "79",
-//        subTitle = "AVAILABLE e-PIN",
-//        boxColor = DarkYellow,
-//        iconBoxColor = NaviBlue
-//    ),
-//    Item(
-//        iconName = Icons.Default.PushPin,
-//        title = "9",
-//        subTitle = "EXPIRED e-PIN",
-//        boxColor = LightRed,
-//        iconBoxColor = DarkGreen
-//    ),
-//    Item(
-//        iconName = Icons.Default.Money,
-//        title = "100",
-//        subTitle = "TOTAL INCOME",
-//        boxColor = DarkYellow,
-//        iconBoxColor = LightRed
-//    ),
-//)
-
-//
-//Id HOLDER NAME
-//MY STATUS
-//DIRECT REFERRAL
-//MY TEAM
-//INACTIVE TEAM
-//SELF INCOME
-//LEVEL WALLET
-//MEN WALLET
-//AVAILABLE E PIN
-//EXPIRE EPIN
-//TOTAL INCOME
-//REFERRAL LINK
-//TOP 20 LEADERS
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -116,7 +35,7 @@ fun Dashboard(
     primaryKey: String?
 
     ) {
-//    val scope = rememberCoroutineScope()
+    val scope = rememberCoroutineScope()
     val scrollState = rememberScrollState()
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
 //    Log.d("TAG", "primarykey: ${primaryKey}")
@@ -211,9 +130,9 @@ fun Dashboard(
                 backgroundColor = PrimaryColor,
                 navigationIcon = {
                     IconButton(onClick = {
-//                        scope.launch {
-//                            scaffoldState.drawerState.open()
-//                        }
+                        scope.launch {
+                            scaffoldState.drawerState.open()
+                        }
                     }) {
                         Icon(imageVector = Icons.Default.Menu, contentDescription = "Menu")
                     }
@@ -221,9 +140,9 @@ fun Dashboard(
             )
         },
 
-//        drawerContent = {
-//            DrawerContent()
-//        },
+        drawerContent = {
+            DrawerContent(viewModel,scope,navController)
+        },
         content = {
             Content(dashList = dashList)
 //                  content2()
@@ -234,28 +153,52 @@ fun Dashboard(
 
 
 @Composable
-fun DrawerContent(
-) {
+fun DrawerContent(viewModel: DashbordViewModel, scope: CoroutineScope, navController: NavController) {
     Column(
         Modifier
-            .background(color = GrayDark)
-            .fillMaxSize(1f)
+            .fillMaxSize(1f),
+        horizontalAlignment = Alignment.CenterHorizontally
+//        verticalArrangement = Arrangement.SpaceAround
+
     ) {
-        Card(
-            modifier = Modifier
-                .size(48.dp)
-                .testTag("circle"),
-            shape = CircleShape,
-            elevation = 2.dp
-        ) {
-            Image(
-                painterResource(R.drawable.img),
-                contentDescription = "",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.size(64.dp)
+//        Card(
+//            modifier = Modifier
+//                .size(48.dp)
+//                .testTag("circle"),
+//            shape = CircleShape,
+//            elevation = 2.dp
+//        ) {
+//            Image(
+//                painterResource(R.drawable.img),
+//                contentDescription = "",
+//                contentScale = ContentScale.Crop,
+//                modifier = Modifier.size(64.dp)
+//            )
+//        }
+
+        Text(text = "All feature coming soon",color = PrimaryColor)
+        Spacer(modifier = Modifier.heightIn(40.dp))
+
+        Button(onClick =
+        {
+        scope.launch {
+            viewModel.logOut()
+            viewModel.setPrimaryId()
+            navController.navigateUp()
+        }
+
+        }, modifier = Modifier
+            .padding(8.dp)
+            .fillMaxWidth()) {
+            Text(text = "LogOut")
+            Icon(
+                imageVector = Icons.Default.Logout,
+                contentDescription = null,
+                modifier = Modifier.padding(start = 4.dp)
             )
         }
     }
+
 }
 
 @Composable
@@ -322,4 +265,3 @@ fun DefaultPreview() {
         BoxButton()
     }
 }
-

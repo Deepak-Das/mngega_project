@@ -6,7 +6,7 @@ import com.example.green_mlm_project.mngega_feature.Domain.model.SponsorResponse
 data class RegisterState(
     val sponsor_response: SponsorResponse? = null,
     val registor_response: RegisterResponse? = null,
-    val sponsorText: String = "",
+    val sponsorText: String= "",
     var sponsorId: String = "",
     var spouse: String = "",
     var firstName: String = "",

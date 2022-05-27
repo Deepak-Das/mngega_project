@@ -58,6 +58,7 @@ fun Register(
     ) = viewModel.state.value
 
     LaunchedEffect(sponsor_response){
+        sponsor_response?.sponsor_name?.let { viewModel.setSpouse(it) }
 
         if (sponsor_response == null) {
             viewModel.setWaring(false)
@@ -107,7 +108,8 @@ fun Register(
                 if(!connection){
                     Box(
                         Modifier
-                            .fillMaxWidth(1f).zIndex(1f)
+                            .fillMaxWidth(1f)
+                            .zIndex(1f)
                             .heightIn(40.dp)
                             .background(color = LightRed)
                             .align(alignment = Alignment.TopCenter),
@@ -151,7 +153,7 @@ fun Register(
 //                        )
 //                    }
 
-                        Text(text = "Welcome to Green World", color = DarkGreen)
+                        Text(text = "Welcome to Green World", color = PrimaryColor)
 
 
                         OutlinedTextField(
@@ -175,6 +177,8 @@ fun Register(
                             label = { Text(text = "Sponser Name") },
                             modifier = Modifier.padding(10.dp),
                             onValueChange = { value -> viewModel.setSpouse(value) },
+                            readOnly = true,
+                            enabled = false
                         )
                         OutlinedTextField(
                             value = firstName,
@@ -237,6 +241,12 @@ fun Register(
                             Text(text = "Sign up")
                         }
                         
+                        Spacer(modifier = Modifier.height(10.dp))
+
+                        TextButton(onClick = { navController.navigateUp()}) {
+                            Text(text = "Have existing account click here", color = PrimaryColor)
+                        }
+
                         Spacer(modifier = Modifier.height(10.dp))
 
 

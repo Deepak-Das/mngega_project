@@ -9,5 +9,6 @@ data class LoginState(
     val warning:Boolean=false,
     var errorText:String="",
     var contection:Boolean=false,
-
+    var loginCode:Int=-1,
+    var primaryID:Int=-1
 )

@@ -1,17 +1,9 @@
 package com.example.green_mlm_project.mngega_feature.presentaion.login
 
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.net.ConnectivityManager
-import android.net.Network
-import android.net.NetworkCapabilities
-import android.net.NetworkRequest
-import android.os.Build
 import android.util.Log
-import android.widget.ProgressBar
 import android.widget.Toast
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -62,22 +54,62 @@ fun Login(
 
 ) {
 
+
+
+
+
+
     val scope= rememberCoroutineScope()
     var startProgressBar by remember{ mutableStateOf(false) }
-    var count by remember{ mutableStateOf(1) }
+    var primaryID by remember{ mutableStateOf(-1) }
+    var loginCode by remember{ mutableStateOf(-1) }
+
+
 
 
     val state = viewModel.state.value
 
 
 
-    LaunchedEffect(state.response?.error_code) {
+
+    LaunchedEffect(state.response?.error_code==0,) {
+
         startProgressBar=false
         if (state.response?.error_code == 0) {
-            navController.navigate(Screen.Dashboard.route+"?primaryId=${state.response.primary_id}",){
+            navController.navigate(Screen.Dashboard.route+"?primaryId=${state.response?.primary_id}",){
+//                popUpTo(Screen.Dashboard.route)
             }
 
         }
+//        if (state.loginCode==0&&state.primaryID!=-1) {
+//            navController.navigate(Screen.Dashboard.route+"?primaryId=${state.response?.primary_id}",){
+////                popUpTo(Screen.Dashboard.route)
+//            }
+//
+//        }
+    }
+    LaunchedEffect(state.response){
+        scope.launch {
+            viewModel.readPrimaryId.collect{
+                viewModel.setlogicCode(it)
+                Log.d("Loginaaaaa", "LoginStatus: ${it} ")
+                Log.d("Loginaaaaa", "LoginStatus state: ${state.loginCode} ")
+
+
+            }
+        }
+    }
+    
+    LaunchedEffect(state.response){
+        viewModel.readLoginCode.collect{
+            viewModel.setPrimaryID(it)
+            Log.d("Loginaaaaa", "primaryID: ${it} ")
+            Log.d("Loginaaaaa", "primaryID sate: ${state.primaryID} ")
+
+
+        }
+
+
     }
 
     LaunchedEffect("fakeKey") {
@@ -85,6 +117,10 @@ fun Login(
             context.checkConnection().collect {
                 viewModel.setConnection(it);
 
+
+            }
+            viewModel.readLoginCode.collect{
+                viewModel.setlogicCode(it)
             }
 
         }
