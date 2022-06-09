@@ -17,8 +17,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.green_mlm_project.R
 import com.example.green_mlm_project.mngega_feature.presentaion.ui.theme.*
@@ -84,7 +86,7 @@ fun Dashboard(
                 iconBoxColor = NaviBlue
             ),
             Item(
-                title = "3",
+                title = state.response.LEVEL_WALLET,
                 subTitle = "LEVEL WALLET",
                 iconName = Icons.Default.AccountBalanceWallet,
                 boxColor = DarkYellow,
@@ -156,9 +158,9 @@ fun Dashboard(
 fun DrawerContent(viewModel: DashbordViewModel, scope: CoroutineScope, navController: NavController) {
     Column(
         Modifier
-            .fillMaxSize(1f),
-        horizontalAlignment = Alignment.CenterHorizontally
-//        verticalArrangement = Arrangement.SpaceAround
+            .fillMaxSize(1f).background(color = DrawerColor),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceBetween
 
     ) {
 //        Card(
@@ -175,8 +177,10 @@ fun DrawerContent(viewModel: DashbordViewModel, scope: CoroutineScope, navContro
 //                modifier = Modifier.size(64.dp)
 //            )
 //        }
+        Spacer(modifier = Modifier.heightIn(10.dp))
 
-        Text(text = "All feature coming soon",color = PrimaryColor)
+
+        Text(text = "All features are coming soon",color = Color.Yellow,fontWeight = FontWeight.Bold,fontSize = 20.sp)
         Spacer(modifier = Modifier.heightIn(40.dp))
 
         Button(onClick =
